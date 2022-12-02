@@ -39,10 +39,11 @@ class Cutout(Augmentation):
 
         # apply the function across a tensor with shape [batchsize] to return
         # a tensor with shape [batchsize, length, channels]
-        #batch_cutout_masks = torch.map_fn(self.get_cutout_mask, torch.zeros((self.batch_size,)), dtype=torch.float32) 
-        batch_cutout_masks = torch.zeros((self.batch_size,)).type(torch.float32) #aled
-        for i in range(batch_cutout_masks.shape[0]):
-            batch_cutout_masks[i] = self.get_cutout_mask(batch_cutout_masks[i])
+
+        # batch_cutout_masks = torch.zeros((self.batch_size,)).type(torch.float32) 
+        # for i in range(batch_cutout_masks.shape[0]):
+        #     batch_cutout_masks[i] = self.get_cutout_mask(batch_cutout_masks[i])
+        batch_cutout_masks = (map(self.get_cutout_mask, torch.zeros((self.batch_size,)))).type(dtype=torch.float32) 
         
         x = x * batch_cutout_masks
 

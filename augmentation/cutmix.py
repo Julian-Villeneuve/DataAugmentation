@@ -39,10 +39,10 @@ class Cutmix(Augmentation):
 
         # apply the function across a tensor with shape [batchsize] to return
         # a tensor with shape [batchsize, length, channels]
-        #batch_cutmix_masks = torch.map_fn(self.get_cutmix_mask, torch.zeros((self.batch_size,)), dtype=torch.float32) 
-        batch_cutmix_masks = torch.zeros((self.batch_size,)).type(torch.float32) #aled
-        for i in range(batch_cutmix_masks.shape[0]):
-            batch_cutmix_masks[i] = self.get_cutout_mask(batch_cutmix_masks[i])
+        # batch_cutmix_masks = torch.zeros((self.batch_size,)).type(torch.float32)
+        # for i in range(batch_cutmix_masks.shape[0]):
+        #     batch_cutmix_masks[i] = self.get_cutout_mask(batch_cutmix_masks[i])
+        batch_cutmix_masks = (map(self.get_cutmix_mask, torch.zeros((self.batch_size,)))).type(torch.float32) 
 
         # get a mixup addition sequence
         original_input = x
